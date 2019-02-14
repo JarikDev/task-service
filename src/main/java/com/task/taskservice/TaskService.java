@@ -1,6 +1,8 @@
 package com.task.taskservice;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,8 +16,13 @@ import static java.util.Optional.ofNullable;
 @Slf4j
 @Service
 public class TaskService {
+    Logger log = LoggerFactory.getLogger(TaskService.class);
     private TaskRepository repository;
     private final Deque<String> createdGuids;
+
+    public Deque<String> getCreatedGuids() {
+        return createdGuids;
+    }
 
     public TaskService(TaskRepository repository) {
         this.repository = repository;
@@ -37,10 +44,13 @@ public class TaskService {
     Task getAllTasks(String id) {
         return repository.findById(id).orElseThrow(NullPointerException::new);
     }
+    public boolean taskExists(String id){
+        return repository.findById(id).isPresent();
+    }
 
     void updateTaskStatus() {
         String guid = ofNullable(createdGuids.pollFirst()).orElseThrow(() -> {
-         //   log.error("Created task queue is empty");
+            log.error("Created task queue is empty");
             return new NullPointerException("Created task queue is empty");
         });
 
@@ -54,7 +64,7 @@ public class TaskService {
 
                 repository.save(task);
 
-              //  log.debug("Task performed on: " + LocalDateTime.now() + "n" + "Thread's name: " + Thread.currentThread().getName());
+                log.debug("Task performed on: " + LocalDateTime.now() + "n" + "Thread's name: " + Thread.currentThread().getName());
             }
         };
 
@@ -64,7 +74,7 @@ public class TaskService {
 
     private Task updateTask(String uuid, TaskStatus status) {
         Task task = repository.findById(uuid).orElseThrow(() -> {
-          //  log.error("Task with UUID=" + uuid + "was not found in repository");
+            log.error("Task with UUID=" + uuid + "was not found in repository");
             return new NullPointerException("Task with UUID=" + uuid + "was not found in repository");
         });
 
