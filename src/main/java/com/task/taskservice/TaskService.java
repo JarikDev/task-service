@@ -32,7 +32,7 @@ public class TaskService {
     String createTask() {
         Task task = new Task(UUID.randomUUID().toString(), LocalDateTime.now(), TaskStatus.CREATED);
         repository.save(task);
-        createdGuids.add(UUID.randomUUID().toString());
+        createdGuids.add(task.getGuid());
         return task.getGuid();
     }
 
