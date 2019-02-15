@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 public class Task {
     @Id
     private String guid;
-    private LocalDateTime dateTime;
+    private String dateTime;
     private TaskStatus status;
 
     public Task() { }
 
-    public Task(String guid, LocalDateTime dateTime, TaskStatus status) {
+    public Task(String guid, String dateTime, TaskStatus status) {
         this.guid = guid;
         this.dateTime = dateTime;
         this.status = status;
@@ -21,8 +21,8 @@ public class Task {
 
     public String getGuid() { return guid; }
     public void setGuid(String guid) { this.guid = guid; }
-    public LocalDateTime getDateTime() { return dateTime; }
-    public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
+    public String getDateTime() { return dateTime; }
+    public void setDateTime(String dateTime) { this.dateTime = dateTime; }
     public TaskStatus getStatus() { return status; }
     public void setStatus(TaskStatus status) { this.status = status; }
 

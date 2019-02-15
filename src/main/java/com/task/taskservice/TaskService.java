@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.task.taskservice.TaskStatus.FINISHED;
@@ -30,7 +31,10 @@ public class TaskService {
     }
 
     String createTask() {
-        Task task = new Task(UUID.randomUUID().toString(), LocalDateTime.now(), TaskStatus.CREATED);
+        LocalDateTime localDateTime=LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = localDateTime.format(formatter);
+        Task task = new Task(UUID.randomUUID().toString(), formatDateTime, TaskStatus.CREATED);
         repository.save(task);
         createdGuids.add(task.getGuid());
         return task.getGuid();
@@ -78,7 +82,7 @@ public class TaskService {
             return new NullPointerException("Task with UUID=" + uuid + "was not found in repository");
         });
 
-        task.setDateTime(now());
+        task.setDateTime(now().toString());
         task.setStatus(status);
 
         return task;
