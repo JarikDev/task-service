@@ -1,4 +1,4 @@
-package com.task.taskservice;
+package com.taskservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

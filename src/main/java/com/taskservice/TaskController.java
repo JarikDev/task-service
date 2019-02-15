@@ -1,20 +1,19 @@
-package com.task.taskservice;
+package com.taskservice;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-@Slf4j
+
 @RestController
 @RequestMapping("/task")
 public class TaskController {
+
     private final TaskService service;
 
-    public TaskController(TaskService service) {
+    private TaskController(TaskService service) {
         this.service = service;
     }
 
@@ -36,8 +35,6 @@ public class TaskController {
         if (service.taskExists(id)) {
             return new ResponseEntity<>(service.getAllTasks(id), HttpStatus.OK);
         }
-
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
     }
 }

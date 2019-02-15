@@ -1,5 +1,4 @@
-package com.task.taskservice;
-
+package com.taskservice;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
