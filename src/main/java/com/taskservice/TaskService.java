@@ -3,9 +3,11 @@ package com.taskservice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
 import static com.taskservice.TaskStatus.FINISHED;
 import static com.taskservice.TaskStatus.RUNNING;
 import static java.time.LocalDateTime.now;
@@ -23,7 +25,7 @@ public class TaskService {
     }
 
     String createTask() {
-        LocalDateTime localDateTime=LocalDateTime.now();
+        LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         String formatDateTime = localDateTime.format(formatter);
         Task task = new Task(UUID.randomUUID().toString(), formatDateTime, TaskStatus.CREATED);
@@ -40,7 +42,7 @@ public class TaskService {
         return repository.findById(id).orElseThrow(NullPointerException::new);
     }
 
-    public boolean taskExists(String id){
+    public boolean taskExists(String id) {
         return repository.findById(id).isPresent();
     }
 
@@ -67,7 +69,11 @@ public class TaskService {
             log.error("Task with GUID=" + guid + "was not found in repository");
             return new NullPointerException("Task with GUID=" + guid + "was not found in repository");
         });
-        task.setTimestamp(now().toString());
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        String formatDateTime = localDateTime.format(formatter);
+        task.setTimestamp(formatDateTime);
         task.setStatus(status);
         return task;
     }
